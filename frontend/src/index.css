@@ -22,3 +22,16 @@ h2 {
   margin-right: auto;
 }
 
+input, button, label {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.record-button {
+  text-align: center;
+}
+
+
+
+
+

@@ -1,12 +1,16 @@
 import {useState} from "react"
 
-const JobForm = ({}) => {
+const JobForm = ({existingJob = {}, updateCallback}) => {
 
-    const [companyName, setCompanyName] = useState("")
-    const [position, setPosition] = useState("")
-    const [dateApplied, setDateApplied] = useState("")
-    const [jobLink, setJobLink] = useState("")
-    const [additionalInfo, setAdditionalInfo] = useState("")
+    const [companyName, setCompanyName] = useState(existingJob.companyName || "");
+    const [position, setPosition] = useState(existingJob.position || "");
+    const [dateApplied, setDateApplied] = useState(existingJob.dateApplied || "");
+    const [jobLink, setJobLink] = useState(existingJob.jobLink || "");
+    const [additionalInfo, setAdditionalInfo] = useState(existingJob.additionalInfo || "");
+
+   //if existing job has an entry that means it is updating if not then it is recording new job 
+    const updating = Object.entries(existingJob).length !== 0; 
+ 
 
     const onSubmit = async (e) => {
         e.preventDefault() //do not refresh page yet
@@ -19,10 +23,10 @@ const JobForm = ({}) => {
             additionalInfo
         }
 
-        const url = "http://127.0.0.1:5000/add_job"
+        const url = "http://127.0.0.1:5000/" + (updating ? `update_job/${existingJob.id}`: "add_job")
 
         const options = {
-            method: "POST", 
+            method: updating ? "PATCH": "POST", 
             headers: {
                 "Content-Type": "application/json" //telling api sending json
             },
@@ -30,11 +34,11 @@ const JobForm = ({}) => {
         }
 
         const response = await fetch(url, options)
-        if (response.status !== 200 && response.status !== 200) {
+        if (response.status !== 201 && response.status !== 200) {
             const data = await response.json()
             alert(data.message)
         } else {
-
+            updateCallback()
         }
 
     }
@@ -83,7 +87,7 @@ const JobForm = ({}) => {
             </div>
 
             <div>
-                <label htmlFor="additionalInfo">Additional Info</label>
+                <label htmlFor="additionalInfo">Additional Information</label>
                 <input 
                     type="text" 
                     id="additionalInfo" 
@@ -92,7 +96,7 @@ const JobForm = ({}) => {
                 </input>
             </div>
 
-            <button type="submit">Create Contact</button>
+            <button type="submit">{updating ? "Update" : "Record"}</button>
 
     </form>
     )

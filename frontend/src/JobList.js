@@ -1,6 +1,22 @@
 import React from 'react'
 
-const JobList = ({jobs}) => {
+const JobList = ({jobs, updateJob, updateCallback}) => {
+    
+    const onDelete = async (id) => {
+        try {
+            const options = {
+                method: "DELETE"
+            }
+            const response = await fetch(`http://127.0.0.1:5000/delete_job/${id}`, options)
+            if (response.status == 200) {
+                updateCallback()
+            } else {
+                console.error("Failed to delete recorded job")
+            }
+        } catch (error) {
+            alert (error)
+        }
+    }
 
     return <div>
         <h2>Jobs</h2>
@@ -17,16 +33,16 @@ const JobList = ({jobs}) => {
             </thead>
             <tbody>
 
-                {jobs.map((jobs) => (
-                       <tr key={jobs.id}>
-                            <td>{jobs.companyName}</td>
-                            <td>{jobs.position}</td>
-                            <td>{jobs.jobLink}</td>
-                            <td>{jobs.dateApplied}</td>
-                            <td>{jobs.additionalInfo}</td>
+                {jobs.map((job) => (
+                       <tr key={job.id}>
+                            <td>{job.companyName}</td>
+                            <td>{job.position}</td>
+                            <td>{job.jobLink}</td>
+                            <td>{job.dateApplied}</td>
+                            <td>{job.additionalInfo}</td>
                             <td>
-                                <button>Update</button>
-                                <button>Delete</button>
+                                <button onClick={() => updateJob(job)}>Update</button>
+                                <button onClick={() => onDelete(job.id)}>Delete</button>
                             </td>
                        </tr>                                   
                 ))}
