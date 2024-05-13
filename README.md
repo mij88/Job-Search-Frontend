@@ -13,6 +13,6 @@ npm start
 ```
 
 ### Video Tutorial
-[Tutorial Link](https://github.com/mij88/Job-Search-Backend/assets/156357908/5d9d421a-1489-4d3b-b58a-4d1963cd2ac9)
+[Tutorial Link](https://github.com/mij88/Job-Search-Frontend/assets/156357908/2ad6ec32-b403-4521-9dab-9c578f0dcc60)
 
 
