@@ -10,4 +10,4 @@ npm start
 
 ### Video Tutorial
 
-<video controls src="video/1.mp4" title="Title"></video>
+<video controls src="video/media1.mp4" title="Title"></video>
